@@ -63,18 +63,20 @@ Run the mobile app: npx react-native run-android or npx react-native run-ios.
 4. Designs (Modern UI/UX)
 The design adheres to a minimalist, action-centric philosophy to ensure low resource consumption and effortless navigation: Check Ui/Ux folder for Figma Designs
 
-Key Design Feature: The Action Card: The Dashboard prominently features a single, dynamic "Recommended Action Card." This card is the direct output of the RL agent, providing clear, decisive guidance (e.g., "Review Contract Law Quiz" or "Start Digital Distribution Lesson 2"). This minimizes user choice fatigue and focuses interaction, enhancing user engagement and reducing cognitive load.
+Key Design Feature: The Action Card: The Dashboard prominently features a single, dynamic "Recommended Action Card." This card is the direct output of the RL agent, providing clear, decisive guidance ("Review Contract Law Quiz" or "Start Digital Distribution Lesson 2"). This minimizes user choice fatigue and focuses interaction, enhancing user engagement and reducing cognitive load.
 
 Low-Resource Optimization: Uses high-contrast color palette, relies on simple native components (no heavy custom animations), and caches content locally, only requiring the network to send small state vectors and download module text/audio data once.
 
 5. Deployment Plan (ML-Centric)
-RL Agent Deployment: The trained DQN model (rl_model.py) will be deployed as a Google Cloud Function or a Cloud Run service. This creates a scalable ML inference endpoint that is separate from the Node.js API, maximizing performance and managing cost by scaling compute only when a prediction is requested.
+RL Agent Deployment: The trained DQN model (Valentine Kalu Mualo Capstone Project.pynb) will be deployed as a Google Cloud Function or a Cloud Run service. This creates a scalable ML inference endpoint that is separate from the Node.js API, maximizing performance and managing cost by scaling compute only when a prediction is requested.
 
 API Gateway: The Node.js server will be hosted on Google Cloud Run to handle authentication and route traffic efficiently between the React Native client and the ML Function.
 
 Database: Firestore is used for real-time progress logging, crucial for providing the RL agent with immediate feedback (the Reward Signal) on quiz scores and module completion.
 
-Git Hub Project Link : https://github.com/ValKalu/Capstone_Mulao_Project
+# Git Hub Project Link : [Git](https://github.com/ValKalu/Capstone_Mulao_Project)
+
+# Video Link : [LINK](https://www.loom.com/share/1fd759b836e944fd86e3ab185fd67da5?sid=5bb97702-9e2c-4fe8-ae91-0df52cd36a9e)
 
 # Name: # Valentine Kalu
 
