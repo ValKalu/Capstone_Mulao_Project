@@ -7,11 +7,37 @@ MUALO (Mobile Unified Adaptive Learning Organization) is a mobile-first adaptive
 # How to Set Up the Environment and the Project
 The project utilizes a split architecture designed for performance and scalability in resource-constrained environments.
 
-                                        Component |	Technology	| Role
-Frontend (Mobile MVP)| 	React Native (JavaScript/TypeScript)| 	Handles user interface, local data caching, and audio processing interface for real-time practice features.
-Backend/API Gateway	Node.js | (Express.js)	| Manages user authentication, data synchronization with the database, and serves as the API endpoint for the RL Agent.
-Database |	Google Firestore | 	Scalable NoSQL database for storing user profiles, progress logs, and non-sensitive module content.
-ML Engine (The RL Agent)| 	TensorFlow (Python/TensorFlow.js)	| Hosts the core RL model (DQN/Reinforce), which calculates the optimal pedagogical action for each user state.
+🛠️ Technology Stack & Architecture
+Component :---  
+
+Technology :---:
+
+Role ---:
+
+Frontend (Mobile MVP) :---
+
+React Native (JavaScript/TypeScript) :---:
+
+Handles user interface, local data caching, and audio processing interface for real-time practice features. ---: 
+
+
+Backend/API Gateway :---
+
+Node.js (Express.js) :---:
+
+Manages user authentication, data synchronization with the database, and serves as the API endpoint for the RL Agent. ---:
+
+Database :---
+
+Google Firestore :---:
+
+Scalable NoSQL database for storing user profiles, progress logs, and non-sensitive module content. ---:
+
+ML Engine (The RL Agent) :---
+
+TensorFlow (Python/TensorFlow.js) :---:
+
+Hosts the core RL model (DQN/Reinforce), which calculates the optimal pedagogical action for each user state. ---:
 
 1. Clone the Repository:
 
