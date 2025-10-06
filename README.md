@@ -7,12 +7,8 @@ MUALO (Mobile Unified Adaptive Learning Organization) is a mobile-first adaptive
 # How to Set Up the Environment and the Project
 The project utilizes a split architecture designed for performance and scalability in resource-constrained environments.
 
-🛠️ Technology Stack & Architecture
-Component 
-
-(Technology):--- 
-
-(Role :---:)
+# 🛠️ Technology Stack & Architecture
+Component:---  Technology:---:  Role---:
 
 Frontend (Mobile MVP) :---
 
