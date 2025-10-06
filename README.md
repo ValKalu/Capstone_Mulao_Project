@@ -8,7 +8,7 @@ MUALO (Mobile Unified Adaptive Learning Organization) is a mobile-first adaptive
 The project utilizes a split architecture designed for performance and scalability in resource-constrained environments.
 
 # 🛠️ Technology Stack & Architecture
-(Component Technology Role)
+(Component| Technology| Role)
 
 1. Frontend (Mobile MVP) 
 
@@ -36,14 +36,16 @@ Hosts the core RL model (DQN/Reinforce), which calculates the optimal pedagogica
 
 1. Clone the Repository:
 
-git clone |
-cd mualo-project |
+git clone 
+cd mualo-project 
 
 2. Backend (Node.js/ML Environment):
 
 Set up a Python environment (3.9+) with required ML libraries (TensorFlow, NumPy).
 
-Configure Node.js server dependencies (npm install in backend/).
+Configure Node.js server dependencies 
+
+(npm install in backend/).
 
 Set up Firebase/Google Cloud Project (Firestore database and Google Cloud Functions for ML deployment).
 
@@ -59,7 +61,7 @@ Link the React Native Audio API and necessary local storage libraries.
 Run the mobile app: npx react-native run-android or npx react-native run-ios.
 
 4. Designs (Modern UI/UX)
-The design adheres to a minimalist, action-centric philosophy to ensure low resource consumption and effortless navigation:
+The design adheres to a minimalist, action-centric philosophy to ensure low resource consumption and effortless navigation: Check Ui/Ux folder for Figma Designs
 
 Key Design Feature: The Action Card: The Dashboard prominently features a single, dynamic "Recommended Action Card." This card is the direct output of the RL agent, providing clear, decisive guidance (e.g., "Review Contract Law Quiz" or "Start Digital Distribution Lesson 2"). This minimizes user choice fatigue and focuses interaction, enhancing user engagement and reducing cognitive load.
 
@@ -72,4 +74,7 @@ API Gateway: The Node.js server will be hosted on Google Cloud Run to handle aut
 
 Database: Firestore is used for real-time progress logging, crucial for providing the RL agent with immediate feedback (the Reward Signal) on quiz scores and module completion.
 
+Git Hub Project Link : https://github.com/ValKalu/Capstone_Mulao_Project
+
+# Name: # Valentine Kalu
 
