@@ -80,13 +80,5 @@ Database: Firestore is used for real-time progress logging, crucial for providin
 
 # Name: # Valentine Kalu
 [Apache Licence](https://github.com/ValKalu/Capstone_Mulao_Project/tree/main)
-[MIT Licence](jwt-decode,MIT,3.1.2,https://github.com/auth0/jwt-decode#readme
-contentful,MIT,7.15.2,https://www.contentful.com/developers/documentation/contentdelivery-api/
-lodash,MIT,4.17.21,https://lodash.com/
-tweek-client,MIT,3.1.3,https://github.com/Soluto/tweek-clients
-tweek-local-cache,MIT,0.8.0,https://github.com/Soluto/tweek-clients
-@bugsnag/plugin-react-navigation,MIT,7.10.0,https://www.bugsnag.com/
-@bugsnag/react-native,MIT,7.10.1,https://www.bugsnag.com/
-@fullstory/react-native,MIT,1.0.1,https://github.com/fullstorydev/fullstory-react-native
-@react-native-async-storage/async-storage,MIT,1.15.5,https://github.com/react-native-asyncstorage/async-storage#readme
-@react-native-clipboard/clipboard,MIT,1.8.0,https://github.com/react-nativeclipboard/clipboard#readme)
+
+[MIT Licence](jwt-decode,MIT,3.1.2,https://github.com/auth0/jwt-decode)
