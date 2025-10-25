@@ -1,0 +1,7 @@
+# Dependencies
+/node_modules
+
+# Environment Variables and Service Keys (CRITICAL!)
+.env
+*.json
+serviceAccountKey.json
