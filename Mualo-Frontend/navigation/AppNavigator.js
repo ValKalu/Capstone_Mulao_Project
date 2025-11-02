@@ -44,7 +44,7 @@ const AppTabs = () => {
             })}
         >
             <Tab.Screen name="Dashboard" component={DashboardScreen} />
-            <Tab.Screen name="Learning" component={LearningScreen} />
+            <Tab.Screen name="Quiz" component={LearningScreen} />
             <Tab.Screen name="Rewards" component={RewardsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>

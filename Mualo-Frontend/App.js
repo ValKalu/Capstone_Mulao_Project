@@ -10,10 +10,11 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 // Import Screens
 import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
+
 // Add placeholder screens for the other views from your design
-const QuizScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Quiz Screen (From Quiz.png)</Text></View>;
+const QuizScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>LearningScreen</Text></View>;
 const ProfileScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Profile Screen (From Profile.png)</Text></View>;
-const RewardsScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Rewards Screen (From rewards.png)</Text></View>;
+const RewardsScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Rewards Screen </Text></View>;
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
