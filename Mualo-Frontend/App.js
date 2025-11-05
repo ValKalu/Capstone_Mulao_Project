@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons'; // Used for tab icons
+import { Ionicons } from '@expo/vector-icons'; 
 import Colors from './constants/Colors';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-// Import Screens
+// --- CRITICAL FIX: IMPORT ALL REAL SCREEN COMPONENTS ---
 import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
+// The 'Quiz' tab uses the component from LearningScreen.js
+import LearningScreen from './screens/LearningScreen'; 
+// Use the name defined in the AppTabs component
+import RewardsScreen from './screens/RewardsScreen'; 
+import ProfileScreen from './screens/ProfileScreen'; 
+// --- END CRITICAL FIX ---
 
-// Add placeholder screens for the other views from your design
-const QuizScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>LearningScreen</Text></View>;
-const ProfileScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Profile Screen (From Profile.png)</Text></View>;
-const RewardsScreen = () => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Rewards Screen </Text></View>;
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -42,12 +44,16 @@ function AppTabs() {
         tabBarActiveTintColor: Colors.primary, // Purple for active
         tabBarInactiveTintColor: 'gray',
         headerShown: false, // Hide header on tab screens
+        tabBarStyle: styles.tabBarStyle,
       })}
     >
       <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      <Tab.Screen name="Quiz" component={QuizScreen} />
+      {/* CRITICAL FIX: Use the imported LearningScreen component instead of the placeholder */}
+      <Tab.Screen name="Quiz" component={LearningScreen} /> 
+      {/* CRITICAL FIX: Use the imported RewardsScreen component instead of the placeholder */}
       <Tab.Screen name="Rewards" component={RewardsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      {/* CRITICAL FIX: Use the imported ProfileScreen component instead of the placeholder */}
+      <Tab.Screen name="Profile" component={ProfileScreen} /> 
     </Tab.Navigator>
   );
 }
@@ -56,41 +62,56 @@ function AppTabs() {
 function RootNavigator() {
   const { token, loading } = useAuth();
 
-  // DEV: set true to force showing the login screen for testing
-  const FORCE_SHOW_LOGIN = false;
-
-  useEffect(() => {
-    console.log('[RootNavigator] loading=', loading, 'token=', token);
-  }, [loading, token]);
-
   // show a visible loader while auth state is restoring
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={Colors.primary} />
+        <Text style={styles.loadingText}>Loading Mualo...</Text>
       </View>
     );
   }
 
-  const showLogin = FORCE_SHOW_LOGIN ? true : !token;
+  const showLogin = !token;
 
+  // IMPORTANT: We don't wrap in NavigationContainer here, only in App()
   return (
+    <Stack.Navigator>
+      {showLogin ? (
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      ) : (
+        <Stack.Screen name="AppTabs" component={AppTabs} options={{ headerShown: false }} />
+      )}
+    </Stack.Navigator>
+  );
+}
+
+// --- 3. EXPORTED APP WRAPPER ---
+export default function App() {
+  return (
+    // Only wrap the entire app in NavigationContainer here
     <NavigationContainer>
-      <Stack.Navigator>
-        {showLogin ? (
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="AppTabs" component={AppTabs} options={{ headerShown: false }} />
-        )}
-      </Stack.Navigator>
+      <AuthProvider>
+        <RootNavigator />
+      </AuthProvider>
     </NavigationContainer>
   );
 }
 
-export default function App() {
-  return (
-    <AuthProvider>
-      <RootNavigator />
-    </AuthProvider>
-  );
-}
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white', 
+  },
+  loadingText: {
+    marginTop: 10,
+    color: Colors.textSecondary,
+  },
+  tabBarStyle: {
+    backgroundColor: 'white',
+    height: 60,
+    paddingTop: 5,
+  }
+});

@@ -1,74 +1,204 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { View } from 'react-native'; 
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
+import { useAuth } from '../context/AuthContext'; // Assume correct path to AuthContext
 
-// screen components 
-import DashboardScreen from '../screens/DashboardScreen';
-import LearningScreen from '../screens/LearningScreen';
-import RewardsScreen from '../screens/RewardsScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+const ProfileScreen = ({ navigation }) => {
+    // Access user data and logout function
+    const { userData, logout } = useAuth(); 
 
-const Tab = createBottomTabNavigator();
+    // Default values if userData hasn't loaded yet
+    const displayName = userData?.displayName || 'Loading User...';
+    const email = userData?.email || 'loading@mualo.com';
+    const overallProgress = userData?.overallProgress || 0;
+    const modulesCompleted = userData?.modulesCompleted || 0;
 
-// --- 1. QUIZ WRAPPER COMPONENT (Forces LearningScreen to Quiz Mode) ---
-const QuizWrapper = (props) => {
-    // Passes the prop to tell LearningScreen to display the quiz first.
-    return <LearningScreen {...props} initialMode="quiz" />;
-}
+    // Helper for profile links/settings
+    const renderSettingItem = (icon, title, action) => (
+        <TouchableOpacity style={styles.settingItem} onPress={action}>
+            <FontAwesome5 name={icon} size={20} color={Colors.primary} style={styles.settingIcon} />
+            <Text style={styles.settingText}>{title}</Text>
+            <FontAwesome5 name="chevron-right" size={14} color={Colors.darkGray} />
+        </TouchableOpacity>
+    );
 
-// --- 2. REWARDS WRAPPER EXAMPLE (If you wanted to start Rewards on Achievements) ---
-// This is an example of how you could pass an initial mode to the RewardsScreen
-/*
-const RewardsWrapper = (props) => {
-    return <RewardsScreen {...props} initialMode="achievements" />;
-}
-*/
-// We will just use the RewardsScreen directly for now, as no mode is specified.
-
-
-const AppTabs = () => {
     return (
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-                headerShown: false,
-                tabBarActiveTintColor: Colors.primary,
-                tabBarInactiveTintColor: Colors.darkGray,
-                tabBarStyle: {
-                    paddingTop: 5,
-                    height: 60,
-                },
-                tabBarLabelStyle: {
-                    fontSize: 12,
-                    paddingBottom: 5,
-                },
-                tabBarIcon: ({ color, size }) => {
-                    let iconName;
-                    
-                    if (route.name === 'Dashboard') {
-                        iconName = 'home-outline';
-                    } else if (route.name === 'Quiz') { // Used to be 'Learning'
-                        iconName = 'ios-document-text-outline'; 
-                    } else if (route.name === 'Rewards') {
-                        iconName = 'star-outline';
-                    } else if (route.name === 'Profile') {
-                        iconName = 'person-circle-outline';
-                    }
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView contentContainerStyle={styles.container}>
+                {/* --- 1. Header/Avatar Section --- */}
+                <View style={styles.header}>
+                    <View style={styles.avatar}>
+                        <FontAwesome5 name="user-alt" size={40} color={Colors.background} />
+                    </View>
+                    <Text style={styles.displayName}>{displayName}</Text>
+                    <Text style={styles.emailText}>{email}</Text>
+                </View>
 
-                    return <Ionicons name={iconName} size={size} color={color} />;
-                },
-            })}
-        >
-            <Tab.Screen name="Dashboard" component={DashboardScreen} />
-            {/* The Quiz tab uses the wrapper to force the LearningScreen into quiz view */}
-            <Tab.Screen name="Quiz" component={QuizWrapper} /> 
-            
-            {/* Rewards and Profile are pointed directly to their respective screens */}
-            <Tab.Screen name="Rewards" component={RewardsScreen} />
-            <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator>
+                {/* --- 2. Stats Summary --- */}
+                <View style={styles.statsContainer}>
+                    <View style={styles.statBox}>
+                        <Text style={styles.statNumber}>{overallProgress}%</Text>
+                        <Text style={styles.statLabel}>Overall Progress</Text>
+                    </View>
+                    <View style={styles.statSeparator} />
+                    <View style={styles.statBox}>
+                        <Text style={styles.statNumber}>{modulesCompleted}</Text>
+                        <Text style={styles.statLabel}>Modules Completed</Text>
+                    </View>
+                </View>
+
+                {/* --- 3. Settings Menu --- */}
+                <View style={styles.settingsMenu}>
+                    <Text style={styles.sectionTitle}>Account & Settings</Text>
+                    {renderSettingItem('edit', 'Edit Profile', () => console.log('Edit Profile'))}
+                    {renderSettingItem('bell', 'Notifications', () => console.log('Notifications'))}
+                    {renderSettingItem('lock', 'Privacy Settings', () => console.log('Privacy Settings'))}
+                </View>
+                
+                {/* --- 4. Support Menu --- */}
+                <View style={styles.settingsMenu}>
+                    <Text style={styles.sectionTitle}>Support</Text>
+                    {renderSettingItem('question-circle', 'Help & Support', () => console.log('Help'))}
+                    {renderSettingItem('file-alt', 'Terms of Service', () => console.log('Terms'))}
+                </View>
+
+
+                {/* --- 5. Logout Button --- */}
+                <TouchableOpacity style={styles.logoutButton} onPress={logout}>
+                    <FontAwesome5 name="sign-out-alt" size={18} color="white" />
+                    <Text style={styles.logoutText}>Log Out</Text>
+                </TouchableOpacity>
+
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
-export default AppTabs;
+const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+        backgroundColor: Colors.background, // CRITICAL: This ensures the screen is visible
+    },
+    container: {
+        padding: 20,
+        alignItems: 'center',
+    },
+    // Header
+    header: {
+        alignItems: 'center',
+        paddingVertical: 30,
+        width: '100%',
+    },
+    avatar: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: Colors.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    displayName: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: Colors.text,
+        marginTop: 5,
+    },
+    emailText: {
+        fontSize: 14,
+        color: Colors.textSecondary,
+    },
+    // Stats
+    statsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: 15,
+        marginVertical: 15,
+        elevation: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+    },
+    statBox: {
+        alignItems: 'center',
+        flex: 1,
+    },
+    statNumber: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: Colors.primary,
+    },
+    statLabel: {
+        fontSize: 12,
+        color: Colors.textSecondary,
+        marginTop: 4,
+    },
+    statSeparator: {
+        width: 1,
+        backgroundColor: Colors.border,
+        marginHorizontal: 15,
+    },
+    // Settings
+    settingsMenu: {
+        width: '100%',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        marginVertical: 10,
+        paddingHorizontal: 0,
+        elevation: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+    },
+    sectionTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: Colors.text,
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.border,
+    },
+    settingItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.border,
+    },
+    settingIcon: {
+        marginRight: 15,
+        width: 25,
+    },
+    settingText: {
+        fontSize: 16,
+        color: Colors.text,
+        flex: 1,
+    },
+    // Logout
+    logoutButton: {
+        flexDirection: 'row',
+        backgroundColor: '#FF3B30', // Red for danger/logout
+        width: '80%',
+        padding: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 30,
+        marginBottom: 50,
+        gap: 10,
+    },
+    logoutText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18,
+    }
+});
+
+export default ProfileScreen;

@@ -14,6 +14,7 @@ import {
     getDoc
     // ----------------------------
 } from '../config/firebaseConfig.js'; // Ensure this path is correct
+import { Alert } from 'react-native';
 
 // 1. Create the Context
 const AuthContext = createContext();
@@ -132,6 +133,7 @@ export const AuthProvider = ({ children }) => {
         setError(null);
         try {
             await auth.signOut();
+            // Since we removed Alert, we just continue the flow
             // onAuthStateChanged handler will update the user state to null
         } catch (err) {
             console.error("Logout Error:", err);
@@ -201,8 +203,11 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {/* Wait for initial authentication state to load before rendering children */}
-            {!loading && children} 
+            {/* CRITICAL FIX: Removed conditional rendering (!loading && children).
+                We must always render children here. The top-level component (App.js) 
+                is responsible for showing a loading spinner if 'loading' is true.
+            */}
+            {children} 
         </AuthContext.Provider>
     );
 };

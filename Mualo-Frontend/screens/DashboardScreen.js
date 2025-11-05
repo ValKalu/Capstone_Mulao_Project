@@ -70,7 +70,8 @@ const StatCard = ({ label, value, icon }) => (
 );
 
 // 3. AI Recommendation Card
-const AIRecommendationCard = () => (
+// Pass navigation to allow the card button to navigate
+const AIRecommendationCard = ({ navigation }) => (
     <View style={styles.aiCard}>
         <View style={styles.aiHeader}>
             <Feather name="compass" size={24} color={Colors.textDark} />
@@ -83,7 +84,11 @@ const AIRecommendationCard = () => (
         <Text style={styles.aiCourseTitle}>Complete: Artist Budgeting Fundamentals</Text>
         <Text style={styles.aiCourseDetails}>Based on your Financial Literacy progress (40%)</Text>
 
-        <TouchableOpacity style={styles.aiButton} onPress={() => console.log('Continue Learning Pressed')}>
+        {/* CONNECTED: Navigate to the Learning/Quiz tab */}
+        <TouchableOpacity 
+            style={styles.aiButton} 
+            onPress={() => navigation.navigate('Quiz')} // Navigate to 'Quiz' screen
+        >
             <FontAwesome5 name="play-circle" size={16} color={Colors.textDark} style={{ marginRight: 8 }} />
             <Text style={styles.aiButtonText}>Continue Learning</Text>
         </TouchableOpacity>
@@ -137,7 +142,14 @@ const DashboardScreen = ({ navigation }) => {
                     
                     {/* Header Section */}
                     <View style={styles.header}>
-                        <View style={styles.userInfo}>
+                        
+                        {/* FIXED: Wrapped the profile info in a TouchableOpacity 
+                            and added the navigation handler.
+                        */}
+                        <TouchableOpacity 
+                            style={styles.userInfo} 
+                            onPress={() => navigation.navigate('Profile')} // Navigate to 'Profile' tab
+                        >
                             <View style={styles.profileCircle}>
                                 {/* Using K initial as per screenshot */}
                                 <Text style={styles.profileInitial}>K</Text>
@@ -148,7 +160,8 @@ const DashboardScreen = ({ navigation }) => {
                                     Level {userData.level} • {userData.points} points
                                 </Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
+                        
                         <View style={styles.headerIcons}>
                             <TouchableOpacity style={styles.iconButton}>
                                 <Feather name="bell" size={24} color={Colors.white} />
@@ -173,8 +186,8 @@ const DashboardScreen = ({ navigation }) => {
                         ))}
                     </View>
 
-                    {/* AI Recommendation Card */}
-                    <AIRecommendationCard />
+                    {/* AI Recommendation Card - passed navigation prop */}
+                    <AIRecommendationCard navigation={navigation} />
 
                     {/* Quick Actions */}
                     <Text style={styles.sectionTitle}>Quick Actions</Text>
@@ -182,22 +195,22 @@ const DashboardScreen = ({ navigation }) => {
                         <QuickActionButton 
                             label="Continue Learning" 
                             icon="book-reader" 
-                            onPress={() => console.log('Learning')} 
+                            onPress={() => navigation.navigate('Quiz')} // Navigate to 'Quiz' tab
                         />
                         <QuickActionButton 
                             label="View Progress" 
                             icon="chart-bar" 
-                            onPress={() => console.log('Progress')} 
+                            onPress={() => console.log('View Progress Pressed')} // You can map this to a specific progress screen later
                         />
                         <QuickActionButton 
                             label="Study Groups" 
                             icon="users" 
-                            onPress={() => console.log('Groups')} 
+                            onPress={() => console.log('Study Groups Pressed')} 
                         />
                         <QuickActionButton 
                             label="Get Help" 
                             icon="question-circle" 
-                            onPress={() => console.log('Help')} 
+                            onPress={() => console.log('Get Help Pressed')} 
                         />
                     </View>
                     
