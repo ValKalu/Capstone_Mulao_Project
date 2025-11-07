@@ -1,10 +1,3 @@
-/**
- * Firebase Admin SDK initialization
- * ---------------------------------
- * This version handles both:
- *  - Local development (uses serviceAccountKey.json)
- *  - Cloud deployment (uses GOOGLE_APPLICATION_CREDENTIALS or built-in creds)
- */
 
 const admin = require('firebase-admin');
 const fs = require('fs');
@@ -18,7 +11,7 @@ const keyPath =
 try {
   let appConfig = {};
 
-  // 2️⃣ Use credentials from service account or ADC (Application Default Credentials)
+  // (Application Default Credentials)
   if (fs.existsSync(keyPath)) {
     const raw = fs.readFileSync(keyPath, 'utf8');
     const serviceAccount = JSON.parse(raw);

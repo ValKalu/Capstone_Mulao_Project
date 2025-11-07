@@ -43,7 +43,7 @@ const achievements = [
   { title: 'Quick Learner', time: '1 week ago', icon: 'zap' },
 ];
 
-// --- Components ---
+//Components
 const ProgressBar = ({ progress, label, pointsToGo }) => (
   <View style={styles.progressBarContainer}>
     <Text style={styles.progressLabel}>{label}</Text>
@@ -116,7 +116,7 @@ const AchievementItem = ({ title, time, icon }) => (
   </View>
 );
 
-// --- Main Screen ---
+//Main Screen
 const DashboardScreen = ({ navigation }) => {
   const bellScale = useRef(new Animated.Value(1)).current;
   const settingsScale = useRef(new Animated.Value(1)).current;
