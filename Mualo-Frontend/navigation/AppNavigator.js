@@ -9,6 +9,7 @@ import DashboardScreen from '../screens/DashboardScreen';
 import LearningScreen from '../screens/LearningScreen'; // Used for the "Quiz" tab
 import RewardsScreen from '../screens/RewardsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,6 +54,7 @@ const AppTabs = () => {
             <Tab.Screen name="Quiz" component={LearningScreen} />
             <Tab.Screen name="Rewards" component={RewardsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
     );
 };

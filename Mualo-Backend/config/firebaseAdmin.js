@@ -1,24 +1,44 @@
+/**
+ * Firebase Admin SDK initialization
+ * ---------------------------------
+ * This version handles both:
+ *  - Local development (uses serviceAccountKey.json)
+ *  - Cloud deployment (uses GOOGLE_APPLICATION_CREDENTIALS or built-in creds)
+ */
+
 const admin = require('firebase-admin');
 const fs = require('fs');
 const path = require('path');
 
-try {
-  const keyPath = process.env.GOOGLE_APPLICATION_CREDENTIALS || path.resolve(__dirname, '../serviceAccountKey.json');
+// 1️⃣ Determine key file path
+const keyPath =
+  process.env.GOOGLE_APPLICATION_CREDENTIALS ||
+  path.resolve(__dirname, '../serviceAccountKey.json');
 
-  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    // Use ADC
-    admin.initializeApp();
-  } else {
+try {
+  let appConfig = {};
+
+  // 2️⃣ Use credentials from service account or ADC (Application Default Credentials)
+  if (fs.existsSync(keyPath)) {
     const raw = fs.readFileSync(keyPath, 'utf8');
     const serviceAccount = JSON.parse(raw);
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    });
-  }
 
-  console.log('Firebase Admin initialized');
+    appConfig = {
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`,
+    };
+
+    admin.initializeApp(appConfig);
+    console.log('✅ Firebase Admin initialized using local serviceAccountKey.json');
+  } else {
+    // 3️⃣ Fallback to Application Default Credentials (for cloud envs like Render/GCP)
+    admin.initializeApp({
+      credential: admin.credential.applicationDefault(),
+    });
+    console.log('✅ Firebase Admin initialized using Application Default Credentials');
+  }
 } catch (err) {
-  console.error('Failed to initialize Firebase Admin:', err);
+  console.error('❌ Failed to initialize Firebase Admin:', err.message);
   process.exit(1);
 }
 
