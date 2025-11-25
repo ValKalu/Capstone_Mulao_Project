@@ -1,38 +1,19 @@
+import admin from 'firebase-admin';
+import { createRequire } from 'module';
+import { readFileSync } from 'fs';
 
-const admin = require('firebase-admin');
-const fs = require('fs');
-const path = require('path');
+//CommonJS 'require' function scoped to this file.
+const require = createRequire(import.meta.url);
 
-// 1️⃣ Determine key file path
-const keyPath =
-  process.env.GOOGLE_APPLICATION_CREDENTIALS ||
-  path.resolve(__dirname, '../serviceAccountKey.json');
+// the custom 'require' to load the JSON file safely, adjusting the path:
+// We use '../' to move up one directory level from 'config' to 'Mualo-Backend'.
+const serviceAccount = require('../serviceAccountKey.json');
 
-try {
-  let appConfig = {};
-
-  // (Application Default Credentials)
-  if (fs.existsSync(keyPath)) {
-    const raw = fs.readFileSync(keyPath, 'utf8');
-    const serviceAccount = JSON.parse(raw);
-
-    appConfig = {
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`,
-    };
-
-    admin.initializeApp(appConfig);
-    console.log('✅ Firebase Admin initialized using local serviceAccountKey.json');
-  } else {
-    // 3️⃣ Fallback to Application Default Credentials (for cloud envs like Render/GCP)
+if (admin.apps.length === 0) {
     admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
+        credential: admin.credential.cert(serviceAccount)
     });
-    console.log('✅ Firebase Admin initialized using Application Default Credentials');
-  }
-} catch (err) {
-  console.error('❌ Failed to initialize Firebase Admin:', err.message);
-  process.exit(1);
 }
 
-module.exports = admin;
+// 3. Export using ES module syntax
+export default admin;

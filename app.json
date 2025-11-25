@@ -1,0 +1,12 @@
+{
+  "android": {
+    "package": "com.anonymous.capstone_mulao_project"
+  },
+  "ios": {
+    "bundleIdentifier": "com.anonymous.capstone-mulao-project"
+  },
+  "plugins": [
+    "expo-router",
+    "expo-web-browser"
+  ]
+}

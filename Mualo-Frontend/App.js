@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+// Mualo-Frontend/App.js
+import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -6,63 +7,68 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; 
 import Colors from './constants/Colors';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { SoundProvider } from './context/SoundContext';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
-// --- CRITICAL FIX: IMPORT ALL REAL SCREEN COMPONENTS ---
+// Import all screen components
 import LoginScreen from './screens/LoginScreen';
+import PrivacyConsentScreen from './screens/PrivacyConsentScreen'; // ✅ NEW
 import DashboardScreen from './screens/DashboardScreen';
-// The 'Quiz' tab uses the component from LearningScreen.js
 import LearningScreen from './screens/LearningScreen'; 
-// Use the name defined in the AppTabs component
 import RewardsScreen from './screens/RewardsScreen'; 
 import ProfileScreen from './screens/ProfileScreen'; 
-// --- END CRITICAL FIX ---
-
+import SettingsScreen from './screens/SettingsScreen';
+import NotificationsScreen from './screens/NotificationsScreen';
+import MasteryScreen from './screens/MasteryScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// --- 1. APP TABS (Bottom Navigation) ---
+// Bottom Tab Navigator
 function AppTabs() {
+  const { currentLanguage } = useLanguage();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
-          if (route.name === 'Dashboard') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Quiz') {
-            iconName = focused ? 'file-tray-full' : 'file-tray-full-outline';
-          } else if (route.name === 'Rewards') {
-            iconName = focused ? 'trophy' : 'trophy-outline';
-          } else if (route.name === 'Profile') {
-            iconName = focused ? 'person' : 'person-outline';
-          }
-
+          if (route.name === 'Dashboard') iconName = focused ? 'home' : 'home-outline';
+          else if (route.name === 'Quiz') iconName = focused ? 'file-tray-full' : 'file-tray-full-outline';
+          else if (route.name === 'Rewards') iconName = focused ? 'trophy' : 'trophy-outline';
+          else if (route.name === 'Profile') iconName = focused ? 'person' : 'person-outline';
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: Colors.primary, // Purple for active
+        tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: 'gray',
-        headerShown: false, // Hide header on tab screens
-        tabBarStyle: styles.tabBarStyle,
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: 'white',
+          height: 60,
+          paddingTop: 5,
+        },
       })}
     >
-      <Tab.Screen name="Dashboard" component={DashboardScreen} />
-      {/* CRITICAL FIX: Use the imported LearningScreen component instead of the placeholder */}
-      <Tab.Screen name="Quiz" component={LearningScreen} /> 
-      {/* CRITICAL FIX: Use the imported RewardsScreen component instead of the placeholder */}
+      <Tab.Screen 
+        name="Dashboard" 
+        component={DashboardScreen}
+        options={{
+          tabBarBadge: currentLanguage.toUpperCase(),
+          tabBarBadgeStyle: { backgroundColor: Colors.accent }
+        }}
+      />
+      <Tab.Screen name="Quiz" component={LearningScreen} />
       <Tab.Screen name="Rewards" component={RewardsScreen} />
-      {/* CRITICAL FIX: Use the imported ProfileScreen component instead of the placeholder */}
-      <Tab.Screen name="Profile" component={ProfileScreen} /> 
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
 
-// --- 2. MAIN STACK (Auth Flow vs App Flow) ---
+// Root Navigator (handles auth and consent flow)
 function RootNavigator() {
-  const { token, loading } = useAuth();
+  const { token, loading, hasConsent } = useAuth();
 
-  // show a visible loader while auth state is restoring
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -72,28 +78,48 @@ function RootNavigator() {
     );
   }
 
-  const showLogin = !token;
+  // Not logged in → Show login
+  if (!token) {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
+    );
+  }
 
-  // IMPORTANT: We don't wrap in NavigationContainer here, only in App()
+  // Logged in but hasn't accepted consent → Show consent screen
+  if (!hasConsent) {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="PrivacyConsent" component={PrivacyConsentScreen} />
+      </Stack.Navigator>
+    );
+  }
+
+  // Logged in and consented → Show app
   return (
-    <Stack.Navigator>
-      {showLogin ? (
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      ) : (
-        <Stack.Screen name="AppTabs" component={AppTabs} options={{ headerShown: false }} />
-      )}
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="AppTabs" component={AppTabs} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name="Mastery" component={MasteryScreen} />
     </Stack.Navigator>
   );
 }
 
-// --- 3. EXPORTED APP WRAPPER ---
+// Main App Component
 export default function App() {
   return (
-    // Only wrap the entire app in NavigationContainer here
     <NavigationContainer>
-      <AuthProvider>
-        <RootNavigator />
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <SoundProvider>
+              <RootNavigator />
+            </SoundProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </NavigationContainer>
   );
 }
@@ -109,9 +135,4 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: Colors.textSecondary,
   },
-  tabBarStyle: {
-    backgroundColor: 'white',
-    height: 60,
-    paddingTop: 5,
-  }
 });
