@@ -78,6 +78,8 @@ Database: Firestore is used for real-time progress logging, crucial for providin
 
 # Video Link : [LINK](https://www.loom.com/share/1fd759b836e944fd86e3ab185fd67da5?sid=5bb97702-9e2c-4fe8-ae91-0df52cd36a9e)
 
+# Initial Final Design Video Link : [Git] (https://drive.google.com/file/d/1oh0krZhT1_NFpYsIslFww32O7wvU5AAn/view?usp=drive_link)
+
 # Name: # Valentine Kalu
 [Apache Licence](https://github.com/ValKalu/Capstone_Mulao_Project/tree/main)
 
