@@ -1,10 +1,11 @@
-![markmap](https://github.com/user-attachments/assets/d5e581cd-4658-4f2f-9d60-bca2f199e55f)# Capstone_Mulao_Project
+![markmap](https://github.com/user-attachments/assets/d5e581cd-4658-4f2f-9d60-bca2f199e55f) 
+# Capstone_Mulao_Project
 MUALO is an adaptive learning platform for Rwandan music creatives, leveraging a Deep Q-Network (DQN) Reinforcement Learning agent to deliver personalized, "bite-sized" educational content on business, legal, and financial literacy.
 
 # Project Description
 MUALO (Mobile Unified Adaptive Learning Organization) is a mobile-first adaptive educational platform designed to empower aspiring and emerging African Artist especially Rwandan music creatives, particularly female artists, with critical business, legal, and financial literacy skills. The platform uses a Reinforcement Learning (RL) agent as its core pedagogical engine to personalize the curriculum in real-time, ensuring content relevance and maximizing learning effectiveness in a low-bandwidth, low-resource environment.
 
-2. # Policey Traceability Matrix
+# Policey Traceability Matrix
 
 | Rwandan Policy                                  | Your Source                              | How MUALO Addresses It                                          |
 | ----------------------------------------------- | ---------------------------------------- | --------------------------------------------------------------- |
@@ -12,7 +13,7 @@ MUALO (Mobile Unified Adaptive Learning Organization) is a mobile-first adaptive
 | **Rwanda Development Board IP Law (2023)**      | `rwanda_focus=True` questions in dataset | Modules 1-2 teach local registration vs. WIPO theory            |
 | **National AI Policy (MINICT, 2023)**           | Your `Ethical Reflection` slide          | Mobile-first design aligns with 34% internet penetration target |
 
-3. # SYSTEM ANALYSIS | Architecture &  METHODOLOGY
+# SYSTEM ANALYSIS | Architecture &  METHODOLOGY
 
 USER LAYER (React Native)
     ↓ HTTPS/REST (50KB/session)
@@ -24,7 +25,7 @@ ML ENGINE (Python/TensorFlow on Cloud Run)
     ↓ DQN.predict() → Action Index
 CONTENT LAYER (JSON Cache)
 
-4. IMPLEMENTATION & TECHNICAL MASTERY 
+# IMPLEMENTATION & TECHNICAL MASTERY 
 Original Weakness:
 "AI component functions mainly as question recommendation engine"
 "Questionable whether quizzes alone solve problem"
