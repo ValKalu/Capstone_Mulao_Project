@@ -17,12 +17,16 @@ MUALO (Mobile Unified Adaptive Learning Organization) is a mobile-first adaptive
 
 USER LAYER (React Native)
     ↓ HTTPS/REST (50KB/session)
+    
 API GATEWAY (Node.js + Express)
     ↓ Firestore SDK
+    
 DATA LAYER (Firestore)
     ↑ User State Vector (12 skills)
+    
 ML ENGINE (Python/TensorFlow on Cloud Run)
     ↓ DQN.predict() → Action Index
+    
 CONTENT LAYER (JSON Cache)
 
 # IMPLEMENTATION & TECHNICAL MASTERY 
