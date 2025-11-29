@@ -156,7 +156,7 @@ API Gateway: The Node.js server  hosted on Google Cloud Run to handle authentica
 
 Database: Firestore is used for real-time progress logging, crucial for providing the RL agent with immediate feedback (the Reward Signal) on quiz scores and module completion.
 
-
+# [App Mobile Phone (Android) Video](https://drive.google.com/file/d/17UU3Ify_pPOG_0zKRnydptFhJXs8YDl-/view?usp=drive_link)
 # Video Link : [LINK](https://www.loom.com/share/1fd759b836e944fd86e3ab185fd67da5?sid=5bb97702-9e2c-4fe8-ae91-0df52cd36a9e)
 
 # [Initial Final Design Video Link](https://drive.google.com/file/d/1oh0krZhT1_NFpYsIslFww32O7wvU5AAn/view?usp=drive_link)
