@@ -156,7 +156,6 @@ API Gateway: The Node.js server  hosted on Google Cloud Run to handle authentica
 
 Database: Firestore is used for real-time progress logging, crucial for providing the RL agent with immediate feedback (the Reward Signal) on quiz scores and module completion.
 
-# Git Hub Project Link : [Git](https://github.com/ValKalu/Capstone_Mulao_Project)
 
 # Video Link : [LINK](https://www.loom.com/share/1fd759b836e944fd86e3ab185fd67da5?sid=5bb97702-9e2c-4fe8-ae91-0df52cd36a9e)
 
